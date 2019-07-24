@@ -11,8 +11,8 @@ android {
         minSdkVersion 25
         targetSdkVersion 28
 
-        versionCode 157
-        versionName "5.000.000.157_"
+        versionCode 161
+        versionName "5.000.000.161_"
     }
 
     buildTypes {
@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.google.android.support:wearable:2.4.0'
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
 
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
     implementation 'com.google.firebase:firebase-config:18.0.0'
 
