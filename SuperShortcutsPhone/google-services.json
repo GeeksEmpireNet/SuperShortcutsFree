@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "146917814527",
+    "firebase_url": "https://super-shortcuts-free.firebaseio.com",
+    "project_id": "super-shortcuts-free",
+    "storage_bucket": "super-shortcuts-free.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146917814527:android:328a8f10916befe8",
+        "android_client_info": {
+          "package_name": "net.geekstools.supershortcuts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146917814527-5vrqp5jatn78cab8fvg8oebr5agen6qe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.geekstools.supershortcuts",
+            "certificate_hash": "09cab080d436a8bdad8b13cf0e75d7a693b648f8"
+          }
+        },
+        {
+          "client_id": "146917814527-uk0apchspen3l9lcifo96p80bnot5u1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzMUSEsQLQO0U4qUocljlF6jYrZWjLJC0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146917814527-uk0apchspen3l9lcifo96p80bnot5u1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
