@@ -4,10 +4,10 @@
     <string name="proName" translatable="false">Super Shortcuts ᴾᴿᴼ</string>
     <string name="proTitle" translatable="false">Upgrade to Super Shortcuts ᴾᴿᴼ</string>
     <string name="proDesc" translatable="false">Get The Newest Stable Features &amp; Enhanced Graphical Interface (No Ads)</string>
-    <string name="ad_app_id" translatable="false">ca-app-pub-2920235108594210~5523096683</string>
-    <string name="ad_unit_1" translatable="false">ca-app-pub-2920235108594210/6999829884</string>
-    <string name="ad_unit_2" translatable="false">ca-app-pub-2920235108594210/1509869488</string>
-    <string name="ad_unit_3" translatable="false">ca-app-pub-2920235108594210/5845615755</string>
+    <string name="AdAppId" translatable="false">ca-app-pub-2920235108594210~5523096683</string>
+    <string name="BannerSettingGUI" translatable="false">ca-app-pub-2920235108594210/6999829884</string>
+    <string name="AdUnitActivities" translatable="false">ca-app-pub-2920235108594210/1509869488</string>
+    <string name="AdUnitActivitiesConfirm" translatable="false">ca-app-pub-2920235108594210/5845615755</string>
     <string name="ads_title" translatable="false">
         <![CDATA[
             <b>Advertising Blocker Found</b>

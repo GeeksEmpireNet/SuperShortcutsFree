@@ -259,12 +259,11 @@ public class FunctionsClass {
         this.activity = activity;
         API = Build.VERSION.SDK_INT;
 
-        PublicVariable.adsEligible = true;
         adBlockerDetection();
 
         String ClassName = activity.getComponentName().getClassName();
         if (ClassName.contains(SettingGUI.class.getSimpleName())) {
-            MobileAds.initialize(context, context.getString(R.string.ad_app_id));
+            MobileAds.initialize(context, context.getString(R.string.AdAppId));
 
             AdView adView = (AdView) activity.findViewById(R.id.adView);
             AdRequest adRequest = new AdRequest.Builder()
@@ -274,11 +273,6 @@ public class FunctionsClass {
                     .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                     .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                     .addTestDevice("5901E5EE74F9B6652E05621140664A54")
-                    .addKeyword("Game")
-                    .addKeyword("Play")
-                    .addKeyword("Insurance")
-                    .addKeyword("Lawyer")
-                    .addKeyword("Attorney")
                     .build();
             adView.loadAd(adRequest);
 
@@ -294,7 +288,7 @@ public class FunctionsClass {
                 || ClassName.contains(SplitShortcuts.class.getSimpleName())
                 || ClassName.contains(AdvanceShortcuts.class.getSimpleName())
                 || ClassName.contains(SettingGUI.class.getSimpleName())) {
-            MobileAds.initialize(context, context.getString(R.string.ad_app_id));
+            MobileAds.initialize(context, context.getString(R.string.AdAppId));
 
             final AdRequest adRequestInterstitialAd = new AdRequest.Builder()
                     .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
@@ -303,16 +297,11 @@ public class FunctionsClass {
                     .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                     .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                     .addTestDevice("5901E5EE74F9B6652E05621140664A54")
-                    .addKeyword("Game")
-                    .addKeyword("Play")
-                    .addKeyword("Insurance")
-                    .addKeyword("Lawyer")
-                    .addKeyword("Attorney")
                     .build();
 
             final InterstitialAd interstitialAd = new InterstitialAd(context);
             interstitialAd.setImmersiveMode(true);
-            interstitialAd.setAdUnitId(context.getString(R.string.ad_unit_2));
+            interstitialAd.setAdUnitId(context.getString(R.string.AdUnitActivities));
             if (interstitialAd.isLoaded()) {
                 interstitialAd.show();
             } else {
@@ -323,7 +312,7 @@ public class FunctionsClass {
                 public void onAdLoaded() {
                     System.out.println("*** InterstitialAd ***");
 
-                    if (interstitialAd.isLoaded() && PublicVariable.adsEligible) {
+                    if (interstitialAd.isLoaded() && PublicVariable.eligibleLoadShowAds) {
                         interstitialAd.show();
                     }
                 }
@@ -331,9 +320,12 @@ public class FunctionsClass {
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
                     if (BuildConfig.DEBUG) {
-                        System.out.println("*** " + errorCode + " ***");
+                        System.out.println("*** AdUnitActivities | " + errorCode + " ***");
                     }
-                    interstitialAd.loadAd(adRequestInterstitialAd);
+
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        interstitialAd.loadAd(adRequestInterstitialAd);
+                    }
                 }
 
                 @Override
@@ -354,7 +346,7 @@ public class FunctionsClass {
 
             final InterstitialAd interstitialAdConfirm = new InterstitialAd(context);
             interstitialAdConfirm.setImmersiveMode(true);
-            interstitialAdConfirm.setAdUnitId(context.getString(R.string.ad_unit_3));
+            interstitialAdConfirm.setAdUnitId(context.getString(R.string.AdUnitActivitiesConfirm));
             interstitialAdConfirm.loadAd(adRequestInterstitialAd);
             interstitialAdConfirm.setAdListener(new AdListener() {
                 @Override
@@ -384,9 +376,12 @@ public class FunctionsClass {
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
                     if (BuildConfig.DEBUG) {
-                        System.out.println("*** " + errorCode + " ***");
+                        System.out.println("*** AdUnitActivitiesConfirm | " + errorCode + " ***");
                     }
-                    interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+                    }
                 }
 
                 @Override
@@ -401,7 +396,9 @@ public class FunctionsClass {
 
                 @Override
                 public void onAdClosed() {
-                    interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+                    }
                 }
             });
         }

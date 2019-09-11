@@ -82,6 +82,8 @@ public class SettingGUI extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_gui);
+        PublicVariable.eligibleLoadShowAds = true;
+
         try {
             getActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
@@ -406,6 +408,8 @@ public class SettingGUI extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+        PublicVariable.eligibleLoadShowAds = true;
+
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
         firebaseRemoteConfig.fetch(0)
@@ -475,6 +479,7 @@ public class SettingGUI extends FragmentActivity {
     @Override
     public void onPause() {
         super.onPause();
+        PublicVariable.eligibleLoadShowAds = false;
     }
 
     @Override

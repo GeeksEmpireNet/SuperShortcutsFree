@@ -154,6 +154,7 @@ public class NormalAppSelectionList extends Activity implements View.OnClickList
     protected void onCreate(Bundle Saved) {
         super.onCreate(Saved);
         setContentView(R.layout.normal_app_selection);
+        PublicVariable.eligibleLoadShowAds = true;
 
         simpleGestureFilterSwitch = new SimpleGestureFilterSwitch(getApplicationContext(), this);
         functionsClass = new FunctionsClass(getApplicationContext(), this);
@@ -445,6 +446,8 @@ public class NormalAppSelectionList extends Activity implements View.OnClickList
     @Override
     public void onResume() {
         super.onResume();
+        PublicVariable.eligibleLoadShowAds = true;
+
         try {
             firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
@@ -587,7 +590,7 @@ public class NormalAppSelectionList extends Activity implements View.OnClickList
     @Override
     public void onPause() {
         super.onPause();
-        PublicVariable.adsEligible = false;
+        PublicVariable.eligibleLoadShowAds = false;
 
         SharedPreferences sharedPreferences = getSharedPreferences("ShortcutsModeView", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

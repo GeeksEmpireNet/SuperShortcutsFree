@@ -33,7 +33,7 @@
             android:value="true" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_app_id" />
+            android:value="@string/AdAppId" />
         <!--FREE-->
 
         <meta-data

@@ -132,6 +132,7 @@ public class SplitShortcuts extends Activity implements View.OnClickListener, Si
     protected void onCreate(Bundle Saved) {
         super.onCreate(Saved);
         setContentView(R.layout.split_shortcuts_view);
+        PublicVariable.eligibleLoadShowAds = true;
 
         simpleGestureFilterSwitch = new SimpleGestureFilterSwitch(getApplicationContext(), this);
         functionsClass = new FunctionsClass(getApplicationContext(), this);
@@ -345,6 +346,8 @@ public class SplitShortcuts extends Activity implements View.OnClickListener, Si
     @Override
     public void onResume() {
         super.onResume();
+        PublicVariable.eligibleLoadShowAds = true;
+
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
         firebaseRemoteConfig.fetch(0)
@@ -497,7 +500,7 @@ public class SplitShortcuts extends Activity implements View.OnClickListener, Si
     @Override
     public void onPause() {
         super.onPause();
-        PublicVariable.adsEligible = false;
+        PublicVariable.eligibleLoadShowAds = false;
 
         SharedPreferences sharedPreferences = getSharedPreferences("ShortcutsModeView", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

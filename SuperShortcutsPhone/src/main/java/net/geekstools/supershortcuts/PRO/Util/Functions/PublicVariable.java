@@ -36,7 +36,10 @@ public class PublicVariable {
     public static float confirmButtonX, confirmButtonY;
 
     public static boolean firstLoad = true;
-    public static boolean adsEligible = false;
 
     public static List<String> customIconsPackages = new ArrayList<String>();
+
+    /*FREE*/
+    public static boolean eligibleLoadShowAds = false;
+    /*FREE*/
 }

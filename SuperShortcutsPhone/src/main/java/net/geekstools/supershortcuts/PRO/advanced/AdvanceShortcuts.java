@@ -132,6 +132,7 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
     protected void onCreate(Bundle Saved) {
         super.onCreate(Saved);
         setContentView(R.layout.advance_shortcuts_view);
+        PublicVariable.eligibleLoadShowAds = true;
 
         simpleGestureFilterSwitch = new SimpleGestureFilterSwitch(getApplicationContext(), this);
         functionsClass = new FunctionsClass(getApplicationContext(), this);
@@ -346,6 +347,8 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
+        PublicVariable.eligibleLoadShowAds = true;
+
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfig.setDefaults(R.xml.remote_config_default);
         firebaseRemoteConfig.fetch(0)
@@ -498,7 +501,7 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
     @Override
     public void onPause() {
         super.onPause();
-        PublicVariable.adsEligible = false;
+        PublicVariable.eligibleLoadShowAds = false;
 
         SharedPreferences sharedPreferences = getSharedPreferences("ShortcutsModeView", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

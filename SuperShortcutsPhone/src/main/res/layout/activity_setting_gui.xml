@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/ad_unit_1"></com.google.android.gms.ads.AdView>
+        ads:adUnitId="@string/BannerSettingGUI"></com.google.android.gms.ads.AdView>
 
     <ScrollView
         android:layout_width="match_parent"
