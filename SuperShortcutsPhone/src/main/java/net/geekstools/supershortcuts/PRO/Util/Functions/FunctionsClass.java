@@ -117,6 +117,8 @@ public class FunctionsClass {
     LoadCustomIcons loadCustomIcons;
 
     /*FREE EDITION*/
+    static InterstitialAd interstitialAd, interstitialAdConfirm;
+
     public boolean adBlockerDetection() {
         boolean adBlocked = false;
         try {
@@ -276,45 +278,29 @@ public class FunctionsClass {
                     .build();
             adView.loadAd(adRequest);
 
-            RelativeLayout proView = (RelativeLayout) activity.findViewById(R.id.proView);
-            proView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.link_play_store) + context.getPackageName() + context.getString(R.string.dot_pro)))
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                }
-            });
-        } else if (ClassName.contains(NormalAppSelectionList.class.getSimpleName())
-                || ClassName.contains(SplitShortcuts.class.getSimpleName())
-                || ClassName.contains(AdvanceShortcuts.class.getSimpleName())
-                || ClassName.contains(SettingGUI.class.getSimpleName())) {
-            MobileAds.initialize(context, context.getString(R.string.AdAppId));
+            System.out.println("***  *** " + ClassName);
 
-            final AdRequest adRequestInterstitialAd = new AdRequest.Builder()
-                    .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
-                    .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
-                    .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
-                    .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
-                    .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
-                    .addTestDevice("5901E5EE74F9B6652E05621140664A54")
-                    .build();
-
-            final InterstitialAd interstitialAd = new InterstitialAd(context);
-            interstitialAd.setImmersiveMode(true);
-            interstitialAd.setAdUnitId(context.getString(R.string.AdUnitActivities));
+            if (interstitialAd == null) {
+                interstitialAd = new InterstitialAd(context);
+                interstitialAd.setAdUnitId(context.getString(R.string.AdUnitActivities));
+                interstitialAd.setImmersiveMode(true);
+            }
             if (interstitialAd.isLoaded()) {
                 interstitialAd.show();
             } else {
-                interstitialAd.loadAd(adRequestInterstitialAd);
+                interstitialAd.loadAd(new AdRequest.Builder()
+                        .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                        .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                        .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                        .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                        .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                        .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                        .build());
             }
             interstitialAd.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
                     System.out.println("*** InterstitialAd ***");
-
-                    if (interstitialAd.isLoaded() && PublicVariable.eligibleLoadShowAds) {
-                        interstitialAd.show();
-                    }
                 }
 
                 @Override
@@ -324,7 +310,14 @@ public class FunctionsClass {
                     }
 
                     if (PublicVariable.eligibleLoadShowAds) {
-                        interstitialAd.loadAd(adRequestInterstitialAd);
+                        interstitialAd.loadAd(new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
                     }
                 }
 
@@ -340,14 +333,119 @@ public class FunctionsClass {
 
                 @Override
                 public void onAdClosed() {
-
+                    interstitialAd.loadAd(new AdRequest.Builder()
+                            .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                            .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                            .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                            .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                            .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                            .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .build());
                 }
             });
 
-            final InterstitialAd interstitialAdConfirm = new InterstitialAd(context);
-            interstitialAdConfirm.setImmersiveMode(true);
-            interstitialAdConfirm.setAdUnitId(context.getString(R.string.AdUnitActivitiesConfirm));
-            interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+            RelativeLayout proView = (RelativeLayout) activity.findViewById(R.id.proView);
+            proView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.link_play_store) + context.getPackageName() + context.getString(R.string.dot_pro)))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                }
+            });
+        } else if (ClassName.contains(NormalAppSelectionList.class.getSimpleName())
+                || ClassName.contains(SplitShortcuts.class.getSimpleName())
+                || ClassName.contains(AdvanceShortcuts.class.getSimpleName())) {
+            System.out.println("***  *** " + ClassName);
+
+
+            MobileAds.initialize(context, context.getString(R.string.AdAppId));
+
+            if (interstitialAd == null) {
+                interstitialAd = new InterstitialAd(context);
+                interstitialAd.setAdUnitId(context.getString(R.string.AdUnitActivities));
+                interstitialAd.setImmersiveMode(true);
+            }
+            if (interstitialAd.isLoaded() && PublicVariable.eligibleLoadShowAds) {
+                interstitialAd.show();
+            } else {
+                if (PublicVariable.eligibleLoadShowAds) {
+                    interstitialAd.loadAd(new AdRequest.Builder()
+                            .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                            .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                            .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                            .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                            .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                            .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .build());
+                }
+            }
+            interstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    System.out.println("*** InterstitialAd ***");
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    if (BuildConfig.DEBUG) {
+                        System.out.println("*** AdUnitActivities | " + errorCode + " ***");
+                    }
+
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        interstitialAd.loadAd(new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
+                    }
+                }
+
+                @Override
+                public void onAdOpened() {
+
+                }
+
+                @Override
+                public void onAdLeftApplication() {
+
+                }
+
+                @Override
+                public void onAdClosed() {
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        interstitialAd.loadAd(new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
+                    }
+                }
+            });
+
+            if (interstitialAdConfirm == null) {
+                interstitialAdConfirm = new InterstitialAd(context);
+                interstitialAdConfirm.setImmersiveMode(true);
+                interstitialAdConfirm.setAdUnitId(context.getString(R.string.AdUnitActivitiesConfirm));
+            }
+
+            if (!interstitialAdConfirm.isLoading()) {
+                if (PublicVariable.eligibleLoadShowAds) {
+                    interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                            .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                            .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                            .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                            .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                            .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                            .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .build());
+                }
+            }
             interstitialAdConfirm.setAdListener(new AdListener() {
                 @Override
                 public void onAdLoaded() {
@@ -380,7 +478,14 @@ public class FunctionsClass {
                     }
 
                     if (PublicVariable.eligibleLoadShowAds) {
-                        interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+                        interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
                     }
                 }
 
@@ -397,7 +502,14 @@ public class FunctionsClass {
                 @Override
                 public void onAdClosed() {
                     if (PublicVariable.eligibleLoadShowAds) {
-                        interstitialAdConfirm.loadAd(adRequestInterstitialAd);
+                        interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
                     }
                 }
             });
