@@ -1,6 +1,5 @@
 package net.geekstools.supershortcuts.PRO.normal.ui;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,7 +28,7 @@ public class ConfirmButton extends Button
     public ConfirmButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        functionsClass = new FunctionsClass(context, (Activity) getContext());
+        functionsClass = new FunctionsClass(context);
         initConfirmButton();
     }
 

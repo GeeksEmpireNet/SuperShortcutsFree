@@ -53,6 +53,7 @@ import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -67,6 +68,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -76,6 +80,7 @@ import com.google.firebase.appindexing.Indexable;
 import com.google.firebase.appindexing.builders.Actions;
 
 import net.geekstools.supershortcuts.PRO.BuildConfig;
+import net.geekstools.supershortcuts.PRO.Configurations;
 import net.geekstools.supershortcuts.PRO.R;
 import net.geekstools.supershortcuts.PRO.Util.CustomIconManager.LoadCustomIcons;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.NavDrawerItem;
@@ -117,7 +122,9 @@ public class FunctionsClass {
     LoadCustomIcons loadCustomIcons;
 
     /*FREE EDITION*/
-    static InterstitialAd interstitialAd, interstitialAdConfirm;
+    public static InterstitialAd interstitialAdMixShortcuts;
+    static InterstitialAd interstitialAd;
+    static RewardedVideoAd rewardedVideoAdConfirm;
 
     public boolean adBlockerDetection() {
         boolean adBlocked = false;
@@ -278,8 +285,6 @@ public class FunctionsClass {
                     .build();
             adView.loadAd(adRequest);
 
-            System.out.println("***  *** " + ClassName);
-
             if (interstitialAd == null) {
                 interstitialAd = new InterstitialAd(context);
                 interstitialAd.setAdUnitId(context.getString(R.string.AdUnitActivities));
@@ -355,10 +360,9 @@ public class FunctionsClass {
         } else if (ClassName.contains(NormalAppSelectionList.class.getSimpleName())
                 || ClassName.contains(SplitShortcuts.class.getSimpleName())
                 || ClassName.contains(AdvanceShortcuts.class.getSimpleName())) {
-            System.out.println("***  *** " + ClassName);
-
-
             MobileAds.initialize(context, context.getString(R.string.AdAppId));
+
+            ImageView rewardedVideoAds = (ImageView) activity.findViewById(R.id.rewardedVideoAds);
 
             if (interstitialAd == null) {
                 interstitialAd = new InterstitialAd(context);
@@ -428,15 +432,16 @@ public class FunctionsClass {
                 }
             });
 
-            if (interstitialAdConfirm == null) {
-                interstitialAdConfirm = new InterstitialAd(context);
-                interstitialAdConfirm.setImmersiveMode(true);
-                interstitialAdConfirm.setAdUnitId(context.getString(R.string.AdUnitActivitiesConfirm));
+            if (rewardedVideoAdConfirm == null) {
+                rewardedVideoAdConfirm = MobileAds.getRewardedVideoAdInstance(context);
+                rewardedVideoAdConfirm.setImmersiveMode(true);
             }
 
-            if (!interstitialAdConfirm.isLoading()) {
+            if (rewardedVideoAdConfirm.isLoaded()) {
+                rewardedVideoAds.setVisibility(View.VISIBLE);
+            } else {
                 if (PublicVariable.eligibleLoadShowAds) {
-                    interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                    rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
                             .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                             .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                             .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
@@ -446,10 +451,12 @@ public class FunctionsClass {
                             .build());
                 }
             }
-            interstitialAdConfirm.setAdListener(new AdListener() {
+            rewardedVideoAdConfirm.setRewardedVideoAdListener(new RewardedVideoAdListener() {
                 @Override
-                public void onAdLoaded() {
-                    System.out.println("*** InterstitialAdConfirm ***");
+                public void onRewardedVideoAdLoaded() {
+                    FunctionsClassDebug.Companion.PrintDebug("*** RewardedVideoAdConfirm ***");
+
+                    rewardedVideoAds.setVisibility(View.VISIBLE);
 
                     IntentFilter intentFilter = new IntentFilter();
                     intentFilter.addAction("SHOW_ADS_CONFIRM");
@@ -457,8 +464,104 @@ public class FunctionsClass {
                         @Override
                         public void onReceive(final Context context, Intent intent) {
                             if (intent.getAction().equals("SHOW_ADS_CONFIRM")) {
-                                if (interstitialAdConfirm.isLoaded()) {
-                                    interstitialAdConfirm.show();
+                                if (rewardedVideoAdConfirm.isLoaded()) {
+                                    rewardedVideoAdConfirm.show();
+                                }
+                            }
+                        }
+                    };
+                    try {
+                        context.unregisterReceiver(broadcastReceiver);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    context.registerReceiver(broadcastReceiver, intentFilter);
+                }
+
+                @Override
+                public void onRewardedVideoAdOpened() {
+                    rewardedVideoAds.setVisibility(View.INVISIBLE);
+                }
+
+                @Override
+                public void onRewardedVideoStarted() {
+
+                }
+
+                @Override
+                public void onRewardedVideoAdClosed() {
+                    rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
+                            .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                            .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                            .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                            .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                            .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                            .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .build());
+                }
+
+                @Override
+                public void onRewarded(RewardItem rewardItem) {
+
+                }
+
+                @Override
+                public void onRewardedVideoAdLeftApplication() {
+
+                }
+
+                @Override
+                public void onRewardedVideoAdFailedToLoad(int errorCode) {
+                    FunctionsClassDebug.Companion.PrintDebug("*** RewardedVideoAdConfirm | " + errorCode + " ***");
+
+                    if (PublicVariable.eligibleLoadShowAds) {
+                        rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
+                                .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                                .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                                .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                                .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                                .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                                .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .build());
+                    }
+                }
+
+                @Override
+                public void onRewardedVideoCompleted() {
+
+                }
+            });
+
+
+            if (interstitialAdMixShortcuts == null) {
+                interstitialAdMixShortcuts = new InterstitialAd(context);
+                interstitialAdMixShortcuts.setImmersiveMode(true);
+                interstitialAdMixShortcuts.setAdUnitId(context.getString(R.string.AdUnitMixShortcuts));
+            }
+
+            if (!interstitialAdMixShortcuts.isLoading()) {
+                if (PublicVariable.eligibleLoadShowAds) {
+                    interstitialAdMixShortcuts.loadAd(new AdRequest.Builder()
+                            .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
+                            .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
+                            .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
+                            .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
+                            .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
+                            .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .build());
+                }
+            }
+            interstitialAdMixShortcuts.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    IntentFilter intentFilter = new IntentFilter();
+                    intentFilter.addAction("SHOW_ADS_MIX");
+                    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(final Context context, Intent intent) {
+                            if (intent.getAction().equals("SHOW_ADS_MIX")) {
+                                if (interstitialAdMixShortcuts.isLoaded()) {
+                                    interstitialAdMixShortcuts.show();
                                 }
                             }
                         }
@@ -473,12 +576,8 @@ public class FunctionsClass {
 
                 @Override
                 public void onAdFailedToLoad(int errorCode) {
-                    if (BuildConfig.DEBUG) {
-                        System.out.println("*** AdUnitActivitiesConfirm | " + errorCode + " ***");
-                    }
-
                     if (PublicVariable.eligibleLoadShowAds) {
-                        interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                        interstitialAdMixShortcuts.loadAd(new AdRequest.Builder()
                                 .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                                 .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                                 .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
@@ -502,7 +601,7 @@ public class FunctionsClass {
                 @Override
                 public void onAdClosed() {
                     if (PublicVariable.eligibleLoadShowAds) {
-                        interstitialAdConfirm.loadAd(new AdRequest.Builder()
+                        interstitialAdMixShortcuts.loadAd(new AdRequest.Builder()
                                 .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                                 .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                                 .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
@@ -511,6 +610,10 @@ public class FunctionsClass {
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
                                 .build());
                     }
+
+                    Intent intent = new Intent(context, Configurations.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent, ActivityOptions.makeCustomAnimation(context, android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
                 }
             });
         }
@@ -2985,16 +3088,5 @@ public class FunctionsClass {
             versionCodeKey = context.getString(R.string.stringUpcomingChangeLogSummaryPhone);
         }
         return versionCodeKey;
-    }
-
-    /*In-App Purchase*/
-    public boolean mixShortcutsPurchased() {
-
-        return readPreference(".PurchasedItem", "mix.shortcuts", false);
-    }
-
-    public boolean alreadyDonated() {
-
-        return readPreference(".PurchasedItem", "donation", false);
     }
 }

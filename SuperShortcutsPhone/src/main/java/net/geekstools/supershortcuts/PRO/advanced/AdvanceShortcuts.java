@@ -44,16 +44,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.ConsumeResponseListener;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -77,9 +71,7 @@ import net.geekstools.supershortcuts.PRO.BuildConfig;
 import net.geekstools.supershortcuts.PRO.Configurations;
 import net.geekstools.supershortcuts.PRO.R;
 import net.geekstools.supershortcuts.PRO.Util.Functions.FunctionsClass;
-import net.geekstools.supershortcuts.PRO.Util.Functions.FunctionsClassDebug;
 import net.geekstools.supershortcuts.PRO.Util.Functions.PublicVariable;
-import net.geekstools.supershortcuts.PRO.Util.IAP.InAppBilling;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.NavDrawerItem;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.RecycleViewSmoothLayout;
 import net.geekstools.supershortcuts.PRO.Util.SettingGUI;
@@ -243,90 +235,6 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
         loadCategoryData();
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        if (functionsClass.alreadyDonated()) {
-            BillingClient billingClient = BillingClient.newBuilder(AdvanceShortcuts.this).setListener(new PurchasesUpdatedListener() {
-                @Override
-                public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
-                    if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-
-                    } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-
-                    } else {
-
-                    }
-
-                }
-            }).build();
-            billingClient.startConnection(new BillingClientStateListener() {
-                @Override
-                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
-                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                        List<Purchase> purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList();
-                        for (Purchase purchase : purchases) {
-                            FunctionsClassDebug.Companion.PrintDebug("*** Purchased Item: " + purchase + " ***");
-
-
-                            if (purchase.getSku().equals("donation")) {
-                                ConsumeResponseListener consumeResponseListener = new ConsumeResponseListener() {
-                                    @Override
-                                    public void onConsumeResponse(@BillingClient.BillingResponse int responseCode, String outToken) {
-                                        if (responseCode == BillingClient.BillingResponse.OK) {
-                                            FunctionsClassDebug.Companion.PrintDebug("*** Consumed Item: " + outToken + " ***");
-
-                                            functionsClass.savePreference(".PurchasedItem", purchase.getSku(), false);
-                                        }
-                                    }
-                                };
-                                billingClient.consumeAsync(purchase.getPurchaseToken(), consumeResponseListener);
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onBillingServiceDisconnected() {
-
-                }
-            });
-        }
-
-        if (!functionsClass.mixShortcutsPurchased() || !functionsClass.alreadyDonated()) {
-            BillingClient billingClient = BillingClient.newBuilder(AdvanceShortcuts.this).setListener(new PurchasesUpdatedListener() {
-                @Override
-                public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
-                    if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-
-                    } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-
-                    } else {
-
-                    }
-
-                }
-            }).build();
-            billingClient.startConnection(new BillingClientStateListener() {
-                @Override
-                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
-                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                        List<Purchase> purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList();
-                        for (Purchase purchase : purchases) {
-                            System.out.println("*** Purchased Item: " + purchase + " ***");
-
-                            functionsClass.savePreference(".PurchasedItem", purchase.getSku(), true);
-                            if (purchase.getSku().equals("mix.shortcuts")) {
-
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onBillingServiceDisconnected() {
-
-                }
-            });
-        }
     }
 
     @Override
@@ -551,22 +459,20 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
 
         mixShortcutsMenuItem = menu.findItem(R.id.mixShortcuts);
 
-        if (functionsClass.mixShortcutsPurchased()) {
-            if (functionsClass.mixShortcuts()) {
-                LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
-                Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
-                backDrawMixHint.setTint(getColor(R.color.default_color_light));
+        if (functionsClass.mixShortcuts()) {
+            LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
+            Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
+            backDrawMixHint.setTint(getColor(R.color.default_color_light));
 
-                mixShortcutsMenuItem.setIcon(drawMixHint);
-                mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsEnable));
-            } else {
-                LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
-                Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
-                backDrawMixHint.setTint(getColor(R.color.dark));
+            mixShortcutsMenuItem.setIcon(drawMixHint);
+            mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsEnable));
+        } else {
+            LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
+            Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
+            backDrawMixHint.setTint(getColor(R.color.dark));
 
-                mixShortcutsMenuItem.setIcon(drawMixHint);
-                mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsDisable));
-            }
+            mixShortcutsMenuItem.setIcon(drawMixHint);
+            mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsDisable));
         }
 
         return true;
@@ -587,28 +493,33 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
                 break;
             }
             case R.id.mixShortcuts: {
-                if (functionsClass.mixShortcutsPurchased()) {
-                    try {
-                        functionsClass.deleteSelectedFiles();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    SharedPreferences sharedPreferences = getSharedPreferences("mix", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    if (sharedPreferences.getBoolean("mixShortcuts", false) == true) {
-                        editor.putBoolean("mixShortcuts", false);
-                        editor.apply();
-                    } else if (sharedPreferences.getBoolean("mixShortcuts", false) == false) {
-                        editor.putBoolean("mixShortcuts", true);
-                        editor.apply();
-                    }
+                try {
+                    functionsClass.deleteSelectedFiles();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                SharedPreferences sharedPreferences = getSharedPreferences("mix", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (sharedPreferences.getBoolean("mixShortcuts", false) == true) {
+                    editor.putBoolean("mixShortcuts", false);
+                    editor.apply();
+                } else if (sharedPreferences.getBoolean("mixShortcuts", false) == false) {
+                    editor.putBoolean("mixShortcuts", true);
+                    editor.apply();
+                }
 
+                if (FunctionsClass.interstitialAdMixShortcuts == null) {
                     Intent intent = new Intent(getApplicationContext(), Configurations.class);
                     startActivity(intent, ActivityOptions.makeCustomAnimation(getApplicationContext(), android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
                 } else {
-                    startActivity(new Intent(getApplicationContext(), InAppBilling.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    if (FunctionsClass.interstitialAdMixShortcuts.isLoaded()) {
+                        sendBroadcast(new Intent("SHOW_ADS_MIX"));
+                    } else {
+                        Intent intent = new Intent(getApplicationContext(), Configurations.class);
+                        startActivity(intent, ActivityOptions.makeCustomAnimation(getApplicationContext(), android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
+                    }
                 }
+
                 break;
             }
             case android.R.id.home: {
@@ -669,58 +580,6 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
                                                 }
                                             }
                                         }, 333);
-
-                                        if (!functionsClass.mixShortcutsPurchased() || !functionsClass.alreadyDonated()) {
-                                            BillingClient billingClient = BillingClient.newBuilder(AdvanceShortcuts.this).setListener(new PurchasesUpdatedListener() {
-                                                @Override
-                                                public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
-                                                    if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-
-                                                    } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-
-                                                    } else {
-
-                                                    }
-
-                                                }
-                                            }).build();
-                                            billingClient.startConnection(new BillingClientStateListener() {
-                                                @Override
-                                                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
-                                                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                                                        List<Purchase> purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList();
-                                                        for (Purchase purchase : purchases) {
-                                                            System.out.println("*** Purchased Item: " + purchase + " ***");
-
-                                                            functionsClass.savePreference(".PurchasedItem", purchase.getSku(), true);
-                                                            if (purchase.getSku().equals("mix.shortcuts")) {
-
-                                                                if (functionsClass.mixShortcuts()) {
-                                                                    LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
-                                                                    Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
-                                                                    backDrawMixHint.setTint(getColor(R.color.default_color_light));
-
-                                                                    mixShortcutsMenuItem.setIcon(drawMixHint);
-                                                                    mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsEnable));
-                                                                } else {
-                                                                    LayerDrawable drawMixHint = (LayerDrawable) getDrawable(R.drawable.draw_mix_hint);
-                                                                    Drawable backDrawMixHint = drawMixHint.findDrawableByLayerId(R.id.backtemp);
-                                                                    backDrawMixHint.setTint(getColor(R.color.dark));
-
-                                                                    mixShortcutsMenuItem.setIcon(drawMixHint);
-                                                                    mixShortcutsMenuItem.setTitle(getString(R.string.mixShortcutsDisable));
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onBillingServiceDisconnected() {
-
-                                                }
-                                            });
-                                        }
                                     }
                                 } else {
 

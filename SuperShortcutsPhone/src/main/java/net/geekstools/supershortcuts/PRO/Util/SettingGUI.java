@@ -33,15 +33,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingClientStateListener;
-import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -50,7 +45,6 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import net.geekstools.supershortcuts.PRO.R;
 import net.geekstools.supershortcuts.PRO.Util.Functions.FunctionsClass;
 import net.geekstools.supershortcuts.PRO.Util.Functions.PublicVariable;
-import net.geekstools.supershortcuts.PRO.Util.IAP.InAppBilling;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.CustomIconsThemeAdapter;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.NavDrawerItem;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.RecycleViewSmoothLayout;
@@ -59,7 +53,6 @@ import net.geekstools.supershortcuts.PRO.normal.NormalAppSelectionList;
 import net.geekstools.supershortcuts.PRO.split.SplitShortcuts;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SettingGUI extends FragmentActivity {
 
@@ -133,40 +126,6 @@ public class SettingGUI extends FragmentActivity {
 
         prefIconNews.setImageDrawable(getDrawable(R.drawable.ic_launcher));
         customIconDesc.setText(functionsClass.loadCustomIcons() ? functionsClass.appName(functionsClass.readDefaultPreference("customIcon", getPackageName())) : getString(R.string.customIconDesc));
-
-        if (!functionsClass.mixShortcutsPurchased() || !functionsClass.alreadyDonated()) {
-            BillingClient billingClient = BillingClient.newBuilder(SettingGUI.this).setListener(new PurchasesUpdatedListener() {
-                @Override
-                public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
-                    if (responseCode == BillingClient.BillingResponse.OK && purchases != null) {
-
-                    } else if (responseCode == BillingClient.BillingResponse.USER_CANCELED) {
-
-                    } else {
-
-                    }
-
-                }
-            }).build();
-            billingClient.startConnection(new BillingClientStateListener() {
-                @Override
-                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
-                    if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                        List<Purchase> purchases = billingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList();
-                        for (Purchase purchase : purchases) {
-                            System.out.println("*** Purchased Item: " + purchase + " ***");
-
-                            functionsClass.savePreference(".PurchasedItem", purchase.getSku(), true);
-                        }
-                    }
-                }
-
-                @Override
-                public void onBillingServiceDisconnected() {
-
-                }
-            });
-        }
     }
 
     @Override
@@ -209,26 +168,21 @@ public class SettingGUI extends FragmentActivity {
         mixView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (functionsClass.mixShortcutsPurchased()) {
-                    try {
-                        functionsClass.deleteSelectedFiles();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    SharedPreferences sharedPreferences = getSharedPreferences("mix", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    if (sharedPreferences.getBoolean("mixShortcuts", false) == true) {
-                        mixSwitch.setChecked(false);
-                        editor.putBoolean("mixShortcuts", false);
-                        editor.apply();
-                    } else if (sharedPreferences.getBoolean("mixShortcuts", false) == false) {
-                        mixSwitch.setChecked(true);
-                        editor.putBoolean("mixShortcuts", true);
-                        editor.apply();
-                    }
-                } else {
-                    startActivity(new Intent(getApplicationContext(), InAppBilling.class)
-                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                try {
+                    functionsClass.deleteSelectedFiles();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                SharedPreferences sharedPreferences = getSharedPreferences("mix", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                if (sharedPreferences.getBoolean("mixShortcuts", false) == true) {
+                    mixSwitch.setChecked(false);
+                    editor.putBoolean("mixShortcuts", false);
+                    editor.apply();
+                } else if (sharedPreferences.getBoolean("mixShortcuts", false) == false) {
+                    mixSwitch.setChecked(true);
+                    editor.putBoolean("mixShortcuts", true);
+                    editor.apply();
                 }
             }
         });
@@ -514,12 +468,7 @@ public class SettingGUI extends FragmentActivity {
         inflater.inflate(R.menu.preferences_menu, menu);
 
         MenuItem gift = menu.findItem(R.id.donate);
-
-        if (!functionsClass.alreadyDonated()) {
-
-        } else {
-            gift.setVisible(false);
-        }
+        gift.setVisible(false);
 
         return true;
     }
@@ -537,7 +486,7 @@ public class SettingGUI extends FragmentActivity {
                 break;
             }
             case R.id.donate: {
-                startActivity(new Intent(getApplicationContext(), InAppBilling.class));
+                context.sendBroadcast(new Intent("SHOW_ADS_CONFIRM"));
 
                 break;
             }

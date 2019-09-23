@@ -13,8 +13,8 @@ android {
         minSdkVersion 25
         targetSdkVersion 29
 
-        versionCode 166
-        versionName "5.500.500.166_"
+        versionCode 168
+        versionName "5.500.500.168_"
 
         wearAppUnbundled true
     }
@@ -49,8 +49,6 @@ android {
 dependencies {
     implementation project(':LicenseLibrary')
 
-    implementation 'com.android.billingclient:billing:1.2.2'
-
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
@@ -62,9 +60,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-appindexing:19.0.0'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.google.firebase:firebase-config:19.0.0'
+    implementation 'com.google.firebase:firebase-config:19.0.1'
     implementation 'com.google.firebase:firebase-auth:19.0.0'
-    implementation 'com.google.firebase:firebase-storage:19.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.0.1'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 

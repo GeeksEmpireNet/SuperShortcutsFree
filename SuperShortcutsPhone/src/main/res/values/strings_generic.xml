@@ -7,7 +7,8 @@
     <string name="AdAppId" translatable="false">ca-app-pub-2920235108594210~5523096683</string>
     <string name="BannerSettingGUI" translatable="false">ca-app-pub-2920235108594210/6999829884</string>
     <string name="AdUnitActivities" translatable="false">ca-app-pub-2920235108594210/1509869488</string>
-    <string name="AdUnitActivitiesConfirm" translatable="false">ca-app-pub-2920235108594210/5845615755</string>
+    <string name="AdUnitMixShortcuts" translatable="false">ca-app-pub-2920235108594210/5845615755</string>
+    <string name="AdUnitActivitiesConfirm" translatable="false">ca-app-pub-2920235108594210/4657294108</string>
     <string name="ads_title" translatable="false">
         <![CDATA[
             <b>Advertising Blocker Found</b>
