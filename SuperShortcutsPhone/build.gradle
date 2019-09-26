@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
@@ -13,8 +14,8 @@ android {
         minSdkVersion 25
         targetSdkVersion 29
 
-        versionCode 168
-        versionName "5.500.500.168_"
+        versionCode 170
+        versionName "5.500.500.170_"
 
         wearAppUnbundled true
     }
