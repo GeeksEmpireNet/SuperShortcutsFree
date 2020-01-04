@@ -69,11 +69,15 @@ public class CategoryItemListAdapter extends BaseAdapter {
         items.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (navDrawerItems.get(position).getAppName().contains(context.getString(R.string.edit_advanced_shortcut))) {
-                    context.startActivity(new Intent(context, AdvanceShortcuts.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
-                } else {
-                    String packageName = navDrawerItems.get(position).getPackageName();
-                    functionsClass.openApplication(packageName);
+                try {
+                    if (navDrawerItems.get(position).getAppName().contains(context.getString(R.string.edit_advanced_shortcut))) {
+                        context.startActivity(new Intent(context, AdvanceShortcuts.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                    } else {
+                        String packageName = navDrawerItems.get(position).getPackageName();
+                        functionsClass.openApplication(packageName);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 listPopupWindow.dismiss();
             }

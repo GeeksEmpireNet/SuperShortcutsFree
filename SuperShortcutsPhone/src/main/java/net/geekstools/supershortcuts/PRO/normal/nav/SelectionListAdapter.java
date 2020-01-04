@@ -57,7 +57,9 @@ public class SelectionListAdapter extends RecyclerView.Adapter<SelectionListAdap
         toY = PublicVariable.confirmButtonY;
         animationType = Animation.ABSOLUTE;
 
-        loadCustomIcons = new LoadCustomIcons(context, functionsClass.customIconPackageName());
+        if (functionsClass.loadCustomIcons()) {
+            loadCustomIcons = new LoadCustomIcons(context, functionsClass.customIconPackageName());
+        }
     }
 
     @Override

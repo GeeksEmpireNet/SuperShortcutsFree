@@ -70,7 +70,9 @@ import com.google.firebase.storage.UploadTask;
 import net.geekstools.supershortcuts.PRO.BuildConfig;
 import net.geekstools.supershortcuts.PRO.Configurations;
 import net.geekstools.supershortcuts.PRO.R;
+import net.geekstools.supershortcuts.PRO.Util.CustomIconManager.LoadCustomIcons;
 import net.geekstools.supershortcuts.PRO.Util.Functions.FunctionsClass;
+import net.geekstools.supershortcuts.PRO.Util.Functions.FunctionsClassDebug;
 import net.geekstools.supershortcuts.PRO.Util.Functions.PublicVariable;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.NavDrawerItem;
 import net.geekstools.supershortcuts.PRO.Util.NavAdapter.RecycleViewSmoothLayout;
@@ -115,6 +117,8 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
     boolean resetAdapter = false;
 
     SimpleGestureFilterSwitch simpleGestureFilterSwitch;
+
+    LoadCustomIcons loadCustomIcons;
 
     FirebaseRemoteConfig firebaseRemoteConfig;
 
@@ -593,6 +597,8 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
     }
 
     public void loadCategoryData() {
+        loadCustomIcons = new LoadCustomIcons(context, functionsClass.customIconPackageName());
+
         LoadInstalledCustomIcons loadInstalledCustomIcons = new LoadInstalledCustomIcons();
         loadInstalledCustomIcons.execute();
 
@@ -731,6 +737,13 @@ public class AdvanceShortcuts extends Activity implements View.OnClickListener, 
                 advanceShortcutsAdapter = new AdvanceShortcutsAdapter(activity, context, navDrawerItems);
             } else {
                 try {
+                    if (functionsClass.loadCustomIcons()) {
+                        loadCustomIcons.load();
+                        if (BuildConfig.DEBUG) {
+                            FunctionsClassDebug.Companion.PrintDebug("*** Total Custom Icon ::: " + loadCustomIcons.getTotalIcons());
+                        }
+                    }
+
                     appData = functionsClass.readFileLine(".categorySuper");
                     navDrawerItems = new ArrayList<NavDrawerItem>();
                     for (int navItem = 0; navItem < appData.length; navItem++) {

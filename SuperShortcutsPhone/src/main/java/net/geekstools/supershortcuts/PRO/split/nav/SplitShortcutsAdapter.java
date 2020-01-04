@@ -65,7 +65,6 @@ public class SplitShortcutsAdapter extends RecyclerView.Adapter<SplitShortcutsAd
 
         if (functionsClass.loadCustomIcons()) {
             loadCustomIcons = new LoadCustomIcons(context, functionsClass.customIconPackageName());
-            loadCustomIcons.load();
         }
     }
 

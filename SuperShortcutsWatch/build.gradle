@@ -11,8 +11,8 @@ android {
         minSdkVersion 25
         targetSdkVersion 29
 
-        versionCode 171
-        versionName "5.000.000.171_"
+        versionCode 173
+        versionName "${majorVersion}." + getDateMonth() + "." + getDateDay() + "." + getDateYear() + ".${versionCode}"
     }
 
     buildTypes {
@@ -42,6 +42,24 @@ android {
     }
 }
 
+static def getDateYear() {
+    def date = new Date()
+    def formattedDate = date.format('yyyy')//yyyyMMdd
+    return formattedDate
+}
+
+static def getDateMonth() {
+    def date = new Date()
+    def formattedDate = date.format('MM')//yyyyMMdd
+    return formattedDate
+}
+
+static def getDateDay() {
+    def date = new Date()
+    def formattedDate = date.format('dd')//yyyyMMdd
+    return formattedDate
+}
+
 dependencies {
     implementation project(':LicenseLibrary')
 
@@ -50,9 +68,9 @@ dependencies {
     implementation 'com.google.android.support:wearable:2.5.0'
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
 
-    implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.google.firebase:firebase-config:19.0.1'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-config:19.1.0'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 }
