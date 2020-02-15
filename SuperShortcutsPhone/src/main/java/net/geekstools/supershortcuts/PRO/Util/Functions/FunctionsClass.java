@@ -69,7 +69,6 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -124,7 +123,7 @@ public class FunctionsClass {
     /*FREE EDITION*/
     public static InterstitialAd interstitialAdMixShortcuts;
     static InterstitialAd interstitialAd;
-    static RewardedVideoAd rewardedVideoAdConfirm;
+    static InterstitialAd rewardedVideoAdConfirm;
 
     public boolean adBlockerDetection() {
         boolean adBlocked = false;
@@ -433,7 +432,8 @@ public class FunctionsClass {
             });
 
             if (rewardedVideoAdConfirm == null) {
-                rewardedVideoAdConfirm = MobileAds.getRewardedVideoAdInstance(context);
+                rewardedVideoAdConfirm = new InterstitialAd(context);
+                rewardedVideoAdConfirm.setAdUnitId(context.getString(R.string.AdUnitActivitiesConfirm));
                 rewardedVideoAdConfirm.setImmersiveMode(true);
             }
 
@@ -441,7 +441,7 @@ public class FunctionsClass {
                 rewardedVideoAds.setVisibility(View.VISIBLE);
             } else {
                 if (PublicVariable.eligibleLoadShowAds) {
-                    rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
+                    rewardedVideoAdConfirm.loadAd(new AdRequest.Builder()
                             .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                             .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                             .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
@@ -490,7 +490,7 @@ public class FunctionsClass {
 
                 @Override
                 public void onRewardedVideoAdClosed() {
-                    rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
+                    rewardedVideoAdConfirm.loadAd(new AdRequest.Builder()
                             .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                             .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                             .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
@@ -515,7 +515,7 @@ public class FunctionsClass {
                     FunctionsClassDebug.Companion.PrintDebug("*** RewardedVideoAdConfirm | " + errorCode + " ***");
 
                     if (PublicVariable.eligibleLoadShowAds) {
-                        rewardedVideoAdConfirm.loadAd(context.getString(R.string.AdUnitActivitiesConfirm), new AdRequest.Builder()
+                        rewardedVideoAdConfirm.loadAd(new AdRequest.Builder()
                                 .addTestDevice("DD004BEC2A2F38D683F297C9503742CD")
                                 .addTestDevice("DD428143B4772EC7AA87D1E2F9DA787C")
                                 .addTestDevice("CDCAA1F20B5C9C948119E886B31681DE")
