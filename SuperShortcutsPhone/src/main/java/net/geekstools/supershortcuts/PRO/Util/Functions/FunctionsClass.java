@@ -87,7 +87,7 @@ import net.geekstools.supershortcuts.PRO.Util.SettingGUI;
 import net.geekstools.supershortcuts.PRO.advanced.AdvanceShortcuts;
 import net.geekstools.supershortcuts.PRO.advanced.LoadCategoryItems;
 import net.geekstools.supershortcuts.PRO.advanced.nav.CategoryItemListAdapter;
-import net.geekstools.supershortcuts.PRO.normal.MediatedActivity;
+import net.geekstools.supershortcuts.PRO.normal.AppShortcutsMediatedActivity;
 import net.geekstools.supershortcuts.PRO.normal.NormalAppSelectionList;
 import net.geekstools.supershortcuts.PRO.split.SplitScreenService;
 import net.geekstools.supershortcuts.PRO.split.SplitShortcuts;
@@ -281,6 +281,7 @@ public class FunctionsClass {
                     .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                     .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                     .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                    .addTestDevice("F54D998BCE077711A17272B899B44798")
                     .build();
             adView.loadAd(adRequest);
 
@@ -299,6 +300,7 @@ public class FunctionsClass {
                         .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                         .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                         .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                        .addTestDevice("F54D998BCE077711A17272B899B44798")
                         .build());
             }
             interstitialAd.setAdListener(new AdListener() {
@@ -321,6 +323,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
                 }
@@ -344,6 +347,7 @@ public class FunctionsClass {
                             .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                             .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                             .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .addTestDevice("F54D998BCE077711A17272B899B44798")
                             .build());
                 }
             });
@@ -379,6 +383,7 @@ public class FunctionsClass {
                             .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                             .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                             .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .addTestDevice("F54D998BCE077711A17272B899B44798")
                             .build());
                 }
             }
@@ -402,6 +407,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
                 }
@@ -426,6 +432,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
                 }
@@ -448,6 +455,7 @@ public class FunctionsClass {
                             .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                             .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                             .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .addTestDevice("F54D998BCE077711A17272B899B44798")
                             .build());
                 }
             }
@@ -497,6 +505,7 @@ public class FunctionsClass {
                             .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                             .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                             .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .addTestDevice("F54D998BCE077711A17272B899B44798")
                             .build());
                 }
 
@@ -522,6 +531,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
                 }
@@ -548,6 +558,7 @@ public class FunctionsClass {
                             .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                             .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                             .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                            .addTestDevice("F54D998BCE077711A17272B899B44798")
                             .build());
                 }
             }
@@ -584,6 +595,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
                 }
@@ -608,6 +620,7 @@ public class FunctionsClass {
                                 .addTestDevice("D101234A6C1CF51023EE5815ABC285BD")
                                 .addTestDevice("65B5827710CBE90F4A99CE63099E524C")
                                 .addTestDevice("5901E5EE74F9B6652E05621140664A54")
+                                .addTestDevice("F54D998BCE077711A17272B899B44798")
                                 .build());
                     }
 
@@ -642,7 +655,7 @@ public class FunctionsClass {
             }
             for (int i = 0; i < maxLoop; i++) {
                 try {
-                    Intent intent = new Intent(context, MediatedActivity.class);
+                    Intent intent = new Intent(context, AppShortcutsMediatedActivity.class);
                     intent.setAction("MEDIATED_ACTIVITY_PRO");
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -731,7 +744,7 @@ public class FunctionsClass {
                     try {
                         ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(new ComponentName(packageName, className), 0);
 
-                        Intent intent = new Intent(context, MediatedActivity.class);
+                        Intent intent = new Intent(context, AppShortcutsMediatedActivity.class);
                         intent.setAction("MEDIATED_ACTIVITY_PRO");
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -794,7 +807,7 @@ public class FunctionsClass {
                     try {
                         ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(new ComponentName(packageName, className), 0);
 
-                        Intent intent = new Intent(context, MediatedActivity.class);
+                        Intent intent = new Intent(context, AppShortcutsMediatedActivity.class);
                         intent.setAction("MEDIATED_ACTIVITY_PRO");
                         intent.addCategory(Intent.CATEGORY_DEFAULT);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1065,7 +1078,7 @@ public class FunctionsClass {
                         try {
                             ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(new ComponentName(packageName, className), 0);
 
-                            Intent intent = new Intent(context, MediatedActivity.class);
+                            Intent intent = new Intent(context, AppShortcutsMediatedActivity.class);
                             intent.setAction("MEDIATED_ACTIVITY_PRO");
                             intent.addCategory(Intent.CATEGORY_DEFAULT);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1274,7 +1287,7 @@ public class FunctionsClass {
                         try {
                             ActivityInfo activityInfo = context.getPackageManager().getActivityInfo(new ComponentName(packageName, className), 0);
 
-                            Intent intent = new Intent(context, MediatedActivity.class);
+                            Intent intent = new Intent(context, AppShortcutsMediatedActivity.class);
                             intent.setAction("MEDIATED_ACTIVITY_PRO");
                             intent.addCategory(Intent.CATEGORY_DEFAULT);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
